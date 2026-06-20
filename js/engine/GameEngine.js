@@ -170,7 +170,7 @@ export class GameEngine {
 
       if (level.id === 1) {
         this.tutorial.reset();
-        this.tutorial.trigger('phase_a', [1, 2, 3]);
+        this.tutorial.trigger('phase_a', [1, 2, 3, 4]);
       } else if (level.hints && level.hints.length > 0) {
         this._showHint(level.hints[0]);
       }

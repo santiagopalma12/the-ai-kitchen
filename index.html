@@ -332,36 +332,7 @@
             <span style="font-size:0.6rem;opacity:0.7">(uso único)</span>
           </button>
 
-                    <!-- Panel TELEMETRY (colapsable) -->
-          <div id="quick-instructions-panel" style="
-            position: absolute; bottom: 120px; left: 1rem; width: 210px;
-            background: rgba(15, 23, 42, 0.93); border: 1px solid rgba(0,242,254,0.35);
-            border-radius: 6px; z-index: 5; backdrop-filter: blur(8px); overflow: hidden;
-          ">
-            <button onclick="window._toggleTelemetry()" style="
-              width:100%; background:rgba(0,242,254,0.07); border:none; cursor:pointer;
-              padding:0.35rem 0.6rem; display:flex; align-items:center; justify-content:space-between;
-              font-family:var(--font-display); font-size:0.55rem; color:var(--neon-cyan);
-              letter-spacing:0.08em; font-weight:bold;
-            ">
-              <span>&#127918; GUIDE</span>
-              <span id="telemetry-chevron" style="font-size:0.65rem;">&#9658;</span>
-            </button>
-            <div id="telemetry-body" style="display:none; padding:0.3rem 0.5rem; flex-direction:column; gap:0.2rem;">
-              <div class="tele-section">
-                <button class="tele-hdr" onclick="window._toggleTeleSection(this)">&#129504; AI Memory <span class="tele-chev">&#9660;</span></button>
-                <div class="tele-body">Clasifica bien para subir. &#161;Al 100%!</div>
-              </div>
-              <div class="tele-section">
-                <button class="tele-hdr" onclick="window._toggleTeleSection(this)">&#10084;&#65039; AI Health <span class="tele-chev">&#9658;</span></button>
-                <div class="tele-body" style="display:none;">Baja si <strong>aceptas basura</strong> o rechazas datos buenos.</div>
-              </div>
-              <div class="tele-section">
-                <button class="tele-hdr" onclick="window._toggleTeleSection(this)">&#127919; Tu Meta <span class="tele-chev">&#9658;</span></button>
-                <div class="tele-body" style="display:none;">Acepta <strong>gu&#237;as tur&#237;sticas de Arequipa</strong>. Rechaza cr&#237;menes y memes.</div>
-              </div>
-            </div>
-          </div>
+
                   </main>
 
         <!-- Mascota IA + Vertical Health Meter -->
@@ -372,7 +343,60 @@
 
             <div id="mascot-display" aria-label="Mascota IA">
               <div class="mascot-body healthy" id="mascot-body" style="border-radius:10px; background:transparent; border:none; box-shadow:none; overflow:hidden; width:100px; height:100px; margin:0 auto; display:flex; align-items:center; justify-content:center;">
-                <img id="mascot-img" src="./assets/mascot/robot_chef_mascot.png" style="width:100%; height:100%; object-fit:contain; image-rendering:pixelated;" alt="Robot Chef" />
+                <svg class="futuristic-robot" viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                  <defs>
+                    <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+                      <feGaussianBlur stdDeviation="1.8" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <!-- Bobbing group -->
+                  <g class="robot-bob" style="transform-origin: center; animation: robot-float 3s ease-in-out infinite;">
+                    <!-- Cyber Chef Hat -->
+                    <path d="M 33 26 Q 30 14 50 14 Q 70 14 67 26 Z" fill="rgba(15,22,41,0.6)" stroke="var(--mascot-color)" stroke-width="2" filter="url(#neon-glow)" />
+                    <path d="M 39 26 L 39 16 M 50 26 L 50 14 M 61 26 L 61 16" stroke="var(--mascot-color)" stroke-width="1.5" opacity="0.7" />
+                    
+                    <!-- Helmet Head -->
+                    <rect x="25" y="27" width="50" height="42" rx="14" fill="#0f1629" stroke="var(--mascot-color)" stroke-width="2.5" filter="url(#neon-glow)" />
+                    
+                    <!-- Antenna/Ears -->
+                    <rect x="19" y="43" width="6" height="10" rx="3" fill="var(--mascot-color)" filter="url(#neon-glow)" />
+                    <rect x="75" y="43" width="6" height="10" rx="3" fill="var(--mascot-color)" filter="url(#neon-glow)" />
+                    <line x1="50" y1="14" x2="50" y2="7" stroke="var(--mascot-color)" stroke-width="2" />
+                    <circle cx="50" cy="5" r="2.5" fill="var(--mascot-color)" filter="url(#neon-glow)" />
+
+                    <!-- Screen face -->
+                    <rect x="31" y="33" width="38" height="30" rx="6" fill="#060910" stroke="var(--mascot-color)" stroke-width="1" />
+
+                    <!-- Eyes (Blinking) -->
+                    <g style="animation: robot-blink-anim 4s infinite; transform-origin: 50% 43px;">
+                      <circle cx="42" cy="43" r="3.5" fill="var(--mascot-color)" filter="url(#neon-glow)" />
+                      <circle cx="58" cy="43" r="3.5" fill="var(--mascot-color)" filter="url(#neon-glow)" />
+                    </g>
+
+                    <!-- Sound frequency waves (talking/acting) -->
+                    <g>
+                      <line x1="42" y1="56" x2="42" y2="58" stroke="var(--mascot-color)" stroke-width="1.8" stroke-linecap="round" filter="url(#neon-glow)">
+                        <animate attributeName="y1" values="56;51;56" dur="0.8s" repeatCount="indefinite" />
+                      </line>
+                      <line x1="46" y1="56" x2="46" y2="58" stroke="var(--mascot-color)" stroke-width="1.8" stroke-linecap="round" filter="url(#neon-glow)">
+                        <animate attributeName="y1" values="56;47;56" dur="0.6s" repeatCount="indefinite" />
+                      </line>
+                      <line x1="50" y1="56" x2="50" y2="58" stroke="var(--mascot-color)" stroke-width="1.8" stroke-linecap="round" filter="url(#neon-glow)">
+                        <animate attributeName="y1" values="56;50;56" dur="1.1s" repeatCount="indefinite" />
+                      </line>
+                      <line x1="54" y1="56" x2="54" y2="58" stroke="var(--mascot-color)" stroke-width="1.8" stroke-linecap="round" filter="url(#neon-glow)">
+                        <animate attributeName="y1" values="56;48;56" dur="0.7s" repeatCount="indefinite" />
+                      </line>
+                      <line x1="58" y1="56" x2="58" y2="58" stroke="var(--mascot-color)" stroke-width="1.8" stroke-linecap="round" filter="url(#neon-glow)">
+                        <animate attributeName="y1" values="56;52;56" dur="0.9s" repeatCount="indefinite" />
+                      </line>
+                    </g>
+                  </g>
+                </svg>
               </div>
             </div>
             <div class="mascot-speech" id="mascot-speech" aria-live="polite" style="font-family:var(--font-body); font-size:0.72rem; min-height:2.5em; max-height:3.5em; overflow:hidden;">

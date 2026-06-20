@@ -44,7 +44,14 @@ export class TutorialSystem {
         image: 'assets/img/tutorial/slide3.png',
         color: 'var(--neon-cyan)'
       },
-      // Slides 4-8 eliminados como overlay — ahora son tooltips (ver showTooltip)
+      4: {
+        phase: 'FASE A: DESPLIEGUE',
+        title: 'GUÍA DE TELEMETRÍA Y OBJETIVOS',
+        text: 'Durante la simulación, vigila estos tres indicadores clave en pantalla:\n\n🧠 AI Memory (Progreso): Sube al clasificar datos correctos. ¡Llega al 100% para completar el entrenamiento!\n\n❤️ AI Health (Salud): Baja si aceptas datos malos o si rechazas datos limpios. ¡Mantén la integridad por encima de 0%!\n\n🎯 Tu Meta: Entrena la IA para turismo de Arequipa aceptando guías oficiales y rechazando crímenes/memes.',
+        image: 'assets/img/tutorial/slide4.png',
+        color: 'var(--neon-cyan)'
+      },
+      // Slides 5-8 eliminados como overlay — ahora son tooltips (ver showTooltip)
       9: {
         phase: 'FASE E: FASE DE AUDITORÍA',
         title: 'EVALUACIÓN COMPARATIVA: DIAGNÓSTICO',
