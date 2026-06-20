@@ -1,0 +1,83 @@
+/* =========================================================
+   THE AI KITCHEN — LOW-SPEC.CSS
+   Override de efectos pesados para hardware legacy / Chromebooks
+   ========================================================= */
+
+body.low-spec {
+  --bg-deep:     #1a1a2e;
+  --bg-surface:  #16213e;
+  --bg-card:     #0f3460;
+  --neon-cyan:   #00b4d8;
+  --neon-green:  #00e676;
+  --neon-pink:   #e91e63;
+  --neon-yellow: #ffd600;
+  --neon-purple: #9c27b0;
+  --neon-orange: #ff6d00;
+  --text-primary: #ffffff;
+  --text-secondary: #b0bec5;
+  --border-subtle: rgba(0,180,216,0.2);
+  --border-strong: rgba(0,180,216,0.5);
+}
+
+/* Eliminar todas las animaciones costosas */
+body.low-spec *,
+body.low-spec *::before,
+body.low-spec *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Eliminar efectos visuales costosos */
+body.low-spec .bg-particles          { display: none !important; }
+body.low-spec .bg-grid               { display: none !important; }
+body.low-spec [class*="shadow"]      { box-shadow: none !important; }
+body.low-spec [class*="neon"]        { text-shadow: none !important; }
+body.low-spec .glitch::before,
+body.low-spec .glitch::after         { display: none !important; }
+body.low-spec .belt-texture          { display: none !important; }
+body.low-spec .mascot-body           { box-shadow: none !important; }
+body.low-spec .health-bar-fill       { box-shadow: none !important; }
+
+/* Colores sólidos en lugar de gradientes */
+body.low-spec .btn-primary  { background: #00b4d8; box-shadow: none; }
+body.low-spec .btn-danger   { background: #e91e63; box-shadow: none; }
+body.low-spec .btn-success  { background: #00e676; box-shadow: none; }
+body.low-spec .btn-warning  { background: #ffd600; box-shadow: none; }
+
+body.low-spec .title-main {
+  background: none !important;
+  -webkit-text-fill-color: #00b4d8 !important;
+  color: #00b4d8;
+}
+
+/* Reducir backdrop-filter (muy costoso en GPU) */
+body.low-spec #hud              { backdrop-filter: none !important; background: #16213e; }
+body.low-spec .modal-backdrop   { backdrop-filter: none !important; background: rgba(10,14,26,0.95); }
+
+/* Data blocks más simples */
+body.low-spec .data-block {
+  box-shadow: none !important;
+  border-width: 2px;
+}
+body.low-spec .data-block:hover { transform: none !important; }
+
+/* Indicador visible del modo activo */
+body.low-spec #low-spec-indicator {
+  display: flex !important;
+}
+#low-spec-indicator {
+  display: none;
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0,180,216,0.2);
+  border: 1px solid #00b4d8;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-display);
+  font-size: 0.55rem;
+  color: #00b4d8;
+  letter-spacing: 0.1em;
+  z-index: 9999;
+}
