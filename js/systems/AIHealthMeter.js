@@ -26,14 +26,21 @@ export class AIHealthMeter {
 
     this.mascotActionActive = false;
     this.mascotActionTimeout = null;
+    this.deathAnimationTriggered = false;
+    this.deathFreezeTimeout = null;
   }
 
   reset() {
     this.health = 100;
     this.state  = 'healthy';
     this.mascotActionActive = false;
+    this.deathAnimationTriggered = false;
     if (this.mascotActionTimeout) {
       clearTimeout(this.mascotActionTimeout);
+    }
+    if (this.deathFreezeTimeout) {
+      clearTimeout(this.deathFreezeTimeout);
+      this.deathFreezeTimeout = null;
     }
     this._render();
   }
@@ -168,6 +175,21 @@ export class AIHealthMeter {
         (this.health >= 70 ? 'healthy' : this.health >= 35 ? 'moderate' : 'critical');
     }
     
+    // Set --mascot-color custom property on the parent panel to unify styling of mascot & speech bubble
+    const mascotPanel = document.getElementById('mascot-panel');
+    const stateColors = {
+      healthy: 'var(--neon-green)',
+      moderate: 'var(--neon-yellow)',
+      critical: 'var(--neon-pink)',
+      biased: 'var(--neon-pink)',
+      outdated: 'var(--neon-yellow)',
+      glitch: 'var(--neon-purple)'
+    };
+    const currentColor = stateColors[this.state] || 'var(--neon-cyan)';
+    if (mascotPanel) {
+      mascotPanel.style.setProperty('--mascot-color', currentColor);
+    }
+
     // Render vertical elements
     const verticalFill = document.getElementById('health-bar-fill-vertical');
     const indicatorFace = document.getElementById('health-indicator-face');
@@ -180,16 +202,6 @@ export class AIHealthMeter {
       // Bottom slider calculation: offset half indicator height to center it
       indicatorFace.style.bottom = `calc(${this.health}% - 16px)`;
       indicatorFace.textContent = this.FACES[this.state] || '🛡️';
-      
-      const stateColors = {
-        healthy: 'var(--neon-green)',
-        moderate: 'var(--neon-yellow)',
-        critical: 'var(--neon-pink)',
-        biased: 'var(--neon-pink)',
-        outdated: 'var(--neon-yellow)',
-        glitch: 'var(--neon-purple)'
-      };
-      const currentColor = stateColors[this.state] || 'var(--neon-cyan)';
       indicatorFace.style.borderColor = currentColor;
       indicatorFace.style.boxShadow = `0 0 10px ${currentColor}`;
     }
@@ -204,30 +216,59 @@ export class AIHealthMeter {
     if (this.mascotFace) {
       this.mascotFace.textContent = this.FACES[this.state] || '🛡️';
     }
+
     if (this.mascotImg && !this.mascotActionActive) {
-      const folders = {
-        healthy:  'assets/mascot/knight/Colour2/Outline/120x80_gifs/',
-        moderate: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
-        critical: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
-        biased:   'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
-        outdated: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
-        glitch:   'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
-      };
-      const animations = {
-        healthy:  '__Idle.gif',
-        moderate: '__Run.gif',
-        critical: '__CrouchWalk.gif',
-        biased:   '__CrouchWalk.gif',
-        outdated: '__Run.gif',
-        glitch:   '__DeathNoMovement.gif',
-      };
-      
-      const folder = folders[this.state] || folders.healthy;
-      const anim = animations[this.state] || animations.healthy;
-      const targetSrc = folder + anim;
-      
-      if (!this.mascotImg.src.includes(targetSrc)) {
-        this.mascotImg.src = targetSrc;
+      if (this.state === 'glitch') {
+        if (!this.deathAnimationTriggered) {
+          this.deathAnimationTriggered = true;
+          this.mascotImg.src = `assets/mascot/knight/Colour1/Outline/120x80_gifs/__DeathNoMovement.gif?t=${Date.now()}`;
+          
+          if (this.deathFreezeTimeout) clearTimeout(this.deathFreezeTimeout);
+          this.deathFreezeTimeout = setTimeout(() => {
+            if (this.state === 'glitch' && this.mascotImg) {
+              try {
+                const canvas = document.createElement('canvas');
+                canvas.width = this.mascotImg.naturalWidth || 120;
+                canvas.height = this.mascotImg.naturalHeight || 80;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(this.mascotImg, 0, 0);
+                this.mascotImg.src = canvas.toDataURL('image/png');
+              } catch (e) {
+                console.error("Failed to freeze mascot death GIF:", e);
+              }
+            }
+          }, 1000);
+        }
+      } else {
+        // Clear death states
+        this.deathAnimationTriggered = false;
+        if (this.deathFreezeTimeout) {
+          clearTimeout(this.deathFreezeTimeout);
+          this.deathFreezeTimeout = null;
+        }
+
+        const folders = {
+          healthy:  'assets/mascot/knight/Colour2/Outline/120x80_gifs/',
+          moderate: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+          critical: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+          biased:   'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+          outdated: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+        };
+        const animations = {
+          healthy:  '__Idle.gif',
+          moderate: '__Run.gif',
+          critical: '__CrouchWalk.gif',
+          biased:   '__CrouchWalk.gif',
+          outdated: '__Run.gif',
+        };
+        
+        const folder = folders[this.state] || folders.healthy;
+        const anim = animations[this.state] || animations.healthy;
+        const targetSrc = folder + anim;
+        
+        if (!this.mascotImg.src.includes(targetSrc)) {
+          this.mascotImg.src = targetSrc;
+        }
       }
     }
   }
