@@ -255,8 +255,8 @@ export class ConveyorBelt {
         this.engine.tutorial.showTooltip('phase_b');
       }
 
-      // ¿Llegó al final sin ser clasificado? → penalizar
-      if (block.x < -330) {
+      // ¿Llegó a la zona del caballero sin ser clasificado? → daño
+      if (block.x < 120) {
         toRemove.push(block);
         this.engine.score.addMissed();
         this.engine.health.onMissed(block.ingredient);
@@ -440,7 +440,7 @@ export class ConveyorBelt {
     const fb = document.createElement('div');
     fb.className = 'feedback-text missed';
     fb.textContent = '-50 MISSED';
-    fb.style.left = '40px';
+    fb.style.left = '140px';
     fb.style.top = (this.beltEl.offsetTop + 20) + 'px';
     fb.style.zIndex = '40';
     document.body.appendChild(fb);

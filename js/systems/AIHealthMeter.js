@@ -175,8 +175,8 @@ export class AIHealthMeter {
         (this.health >= 70 ? 'healthy' : this.health >= 35 ? 'moderate' : 'critical');
     }
     
-    // Set --mascot-color custom property on the parent panel to unify styling of mascot & speech bubble
-    const mascotPanel = document.getElementById('mascot-panel');
+    // Set --mascot-color on knight-belt-container to unify styling of knight, HP bar, speech bubble
+    const knightContainer = document.getElementById('knight-belt-container');
     const stateColors = {
       healthy: 'var(--neon-green)',
       moderate: 'var(--neon-yellow)',
@@ -186,28 +186,20 @@ export class AIHealthMeter {
       glitch: 'var(--neon-purple)'
     };
     const currentColor = stateColors[this.state] || 'var(--neon-cyan)';
-    if (mascotPanel) {
-      mascotPanel.style.setProperty('--mascot-color', currentColor);
+    if (knightContainer) {
+      knightContainer.style.setProperty('--mascot-color', currentColor);
     }
 
-    // Render vertical elements
-    const verticalFill = document.getElementById('health-bar-fill-vertical');
-    const indicatorFace = document.getElementById('health-indicator-face');
-    const percentText = document.getElementById('health-percent-text');
+    // Render horizontal HP bar on belt
+    const hpFill = document.getElementById('knight-hp-fill');
+    const hpText = document.getElementById('knight-hp-text');
     
-    if (verticalFill) {
-      verticalFill.style.height = this.health + '%';
+    if (hpFill) {
+      hpFill.style.width = this.health + '%';
     }
-    if (indicatorFace) {
-      // Bottom slider calculation: offset half indicator height to center it
-      indicatorFace.style.bottom = `calc(${this.health}% - 16px)`;
-      indicatorFace.textContent = this.FACES[this.state] || '🛡️';
-      indicatorFace.style.borderColor = currentColor;
-      indicatorFace.style.boxShadow = `0 0 10px ${currentColor}`;
-    }
-    if (percentText) {
-      percentText.textContent = this.health + '%';
-      percentText.style.color = this.health >= 70 ? 'var(--neon-green)' : this.health >= 35 ? 'var(--neon-yellow)' : 'var(--neon-pink)';
+    if (hpText) {
+      hpText.textContent = this.health + '%';
+      hpText.style.color = this.health >= 70 ? 'var(--neon-green)' : this.health >= 35 ? 'var(--neon-yellow)' : 'var(--neon-pink)';
     }
 
     if (this.mascotBody) {
@@ -255,7 +247,7 @@ export class AIHealthMeter {
           outdated: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
         };
         const animations = {
-          healthy:  '__Idle.gif',
+          healthy:  '__Run.gif',
           moderate: '__Run.gif',
           critical: '__CrouchWalk.gif',
           biased:   '__CrouchWalk.gif',
