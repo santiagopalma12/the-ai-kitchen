@@ -220,6 +220,8 @@
 .knight-mascot {
   width: 490px; /* 3.5x size compared to original 140px */
   height: auto;
+  flex-shrink: 0; /* Prevent Flexbox from shrinking the image to parent width */
+  flex: none;     /* Ensure no flex override affects its size */
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   transition: transform 0.2s ease, filter 0.2s ease;
