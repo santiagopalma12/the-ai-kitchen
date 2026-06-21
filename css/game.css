@@ -166,18 +166,21 @@
 /* ── Knight on Belt Container ──────────────────────────── */
 #knight-belt-container {
   position: absolute;
-  left: 20px;
+  left: 40px;
   top: 50%;
   transform: translateY(-50%);
+  width: 120px;
+  height: 140px;
   z-index: 15;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   pointer-events: none;
 }
 
 /* HP Bar - Horizontal Arcade Style */
 #knight-hp-bar {
+  position: absolute;
+  bottom: 145px;
+  left: 50%;
+  transform: translateX(-50%);
   width: 120px;
   height: 10px;
   background: #111;
@@ -185,7 +188,6 @@
   box-shadow: 0 0 6px var(--mascot-color, var(--neon-cyan)), 0 0 0 2px #000;
   border-radius: 0;
   overflow: hidden;
-  margin-bottom: 4px;
 }
 #knight-hp-fill {
   width: 100%;
@@ -194,18 +196,21 @@
   transition: width 0.4s ease;
 }
 #knight-hp-text {
+  position: absolute;
+  bottom: 132px;
+  left: 50%;
+  transform: translateX(-50%);
   font-family: var(--font-display);
-  font-size: 0.55rem;
+  font-size: 0.6rem;
   color: var(--neon-green);
   font-weight: 900;
   text-shadow: 0 0 6px rgba(0, 255, 100, 0.5);
-  margin-bottom: 2px;
+  margin: 0;
 }
 
 #mascot-display {
-  width: 120px;
-  height: 140px;
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -242,7 +247,7 @@
 
 /* ── MASCOTA CABALLERO ──────────────────────────────────────── */
 .knight-mascot {
-  width: 350px; /* Scaled for on-belt display */
+  width: 500px; /* Enlaged for a clear, crisp, non-dwarfed pixel art display */
   height: auto;
   flex-shrink: 0;
   flex: none;
@@ -250,7 +255,7 @@
   image-rendering: crisp-edges;
   transition: transform 0.2s ease, filter 0.2s ease;
   filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.25));
-  margin-bottom: -20px;
+  margin-bottom: -55px; /* sit feet correctly at bottom */
   pointer-events: none;
 }
 
@@ -276,22 +281,23 @@
 }
 
 .mascot-speech {
+  position: absolute;
+  bottom: 185px;
+  left: 50%;
+  transform: translateX(-50%);
   background: #090e1a;
   border: 3px solid var(--mascot-color, var(--neon-cyan));
   box-shadow: 0 0 0 3px #000, inset 0 0 0 1px #000;
   border-radius: 0;
   padding: 0.5rem 0.7rem;
   font-family: var(--font-body), monospace;
-  font-size: 1rem !important;
+  font-size: 0.9rem !important;
   line-height: 1.3;
   letter-spacing: 0.3px;
   color: #ffffff !important;
   text-align: center;
-  width: 220px;
-  max-width: 260px;
-  position: relative;
+  width: 250px;
   box-sizing: border-box;
-  margin-bottom: 6px;
   pointer-events: none;
 }
 /* Hide speech bubble when empty */
@@ -314,7 +320,7 @@
   z-index: 2;
 }
 .mascot-speech::before {
-  display: none; /* Remove top arrow, we use bottom arrow now */
+  display: none;
 }
 
 /* ── WORLDVIEW PANEL (M7) ───────────────────────────────── */
@@ -365,13 +371,14 @@
   grid-row: 1;
   position: relative;
   overflow: hidden;
-  background-image: linear-gradient(rgba(24, 75, 42, 0.15), rgba(15, 55, 30, 0.55)),
-                    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/Background Castle .png');
-  background-size: cover;
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  image-rendering: pixelated;
-  box-shadow: inset 0 0 80px rgba(10, 45, 20, 0.4);
+  background-color: #060f0a;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.1) 0%, transparent 40%),
+    linear-gradient(rgba(16, 185, 129, 0.05) 2px, transparent 2px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 2px, transparent 2px);
+  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.95);
 }
 
 /* Faja transportadora */
