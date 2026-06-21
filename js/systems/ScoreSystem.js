@@ -105,9 +105,9 @@ export class ScoreSystem {
 
     if (this.overloadEl) this.overloadEl.classList.add('active');
 
-    // Ralentizar faja 3 segundos
+    // Acelerar faja 3 segundos como penalización
     const oldSpeed = this.engine.conveyor.speed;
-    this.engine.conveyor.speed = oldSpeed * 0.4;
+    this.engine.conveyor.speed = oldSpeed * 1.6;
     this.engine.conveyor.blocks.forEach(b => { b.speed = this.engine.conveyor.speed; });
 
     setTimeout(() => {

@@ -371,20 +371,21 @@
   grid-row: 1;
   position: relative;
   overflow: hidden;
-  background-color: #060f0a;
+  background-color: #0f2715; /* green forest base */
   background-image: 
-    radial-gradient(circle at 20% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.1) 0%, transparent 40%),
-    linear-gradient(rgba(16, 185, 129, 0.05) 2px, transparent 2px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 2px, transparent 2px);
-  background-size: 100% 100%, 100% 100%, 48px 48px, 48px 48px;
-  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.95);
+    linear-gradient(rgba(24, 75, 42, 0.1), rgba(15, 55, 30, 0.45)),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/Background Castle .png');
+  background-repeat: repeat-x;
+  background-position: center bottom;
+  background-size: auto 100%;
+  image-rendering: pixelated;
+  box-shadow: inset 0 0 80px rgba(10, 45, 20, 0.4);
 }
 
 /* Faja transportadora */
 #conveyor-belt {
   position: absolute;
-  top: calc(50% - 20px);
+  top: 62%; /* Lowered to prevent any overlap with top inspector panels */
   transform: translateY(-50%);
   bottom: auto;
   left: 0; right: 0;

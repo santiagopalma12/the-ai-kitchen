@@ -74,19 +74,19 @@ export class AIHealthMeter {
 
       if (level.id === 1 && block.ingredient) {
         if (block.ingredient.type === 'clean') {
-          speech = `¡Rechazaste una recomendación válida: "${block.ingredient.text}"! 🏔️ Lo necesitaba para entrenar el recomendador…`;
+          speech = '¡Necesitaba ese dato! 🏔️';
         } else {
           const txt = block.ingredient.text.toLowerCase();
-          let label = 'contenido irrelevante';
-          if (txt.includes('robo')) label = 'noticia de robos 🚨';
+          let label = 'dato malo';
+          if (txt.includes('robo')) label = 'reporte de robos 🚨';
           else if (txt.includes('tráfico')) label = 'reporte de tráfico 🚗';
           else if (txt.includes('meme')) label = 'meme de internet 🤪';
-          else if (txt.includes('hater')) label = 'comentario malicioso/hater 🤮';
-          else if (txt.includes('peligrosas')) label = 'alerta de seguridad ⚠️';
-          else if (txt.includes('cusco')) label = 'guía de otra ciudad (Cusco) 🗺️';
-          else if (txt.includes('postal')) label = 'postal antigua desactualizada 📸';
+          else if (txt.includes('hater')) label = 'comentario de hater 🤮';
+          else if (txt.includes('peligrosas')) label = 'alerta de peligro ⚠️';
+          else if (txt.includes('cusco')) label = 'dato de Cusco 🗺️';
+          else if (txt.includes('postal')) label = 'dato obsoleto 📸';
           
-          speech = `¿Aceptaste un ${label}? ¡Eso no sirve para entrenar un recomendador de turismo sobre Arequipa!`;
+          speech = `¿Aceptaste un ${label}? 🚫 ¡No sirve!`;
         }
       }
 

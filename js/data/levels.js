@@ -54,11 +54,11 @@ export const LEVELS = [
 
     // Speech de la mascota por estado
     mascotLines: {
-      start:    '¡Buscamos guías legítimas e información sobre Arequipa! 🏔️ ¡Rechaza crímenes, memes, quejas de tráfico o comentarios de haters!',
-      good:     '¡Excelente! Información turística de calidad y verificada para Arequipa. ✨',
-      bad:      '¡Eso no es útil para un turista! 🚫 Evita noticias trágicas, memes o comentarios de haters.',
-      perfect:  '¡Dataset turístico impecable! ¡La IA recomendará lo mejor de Arequipa! 🌟',
-      disaster: 'Procesando… ¡Tu IA está recomendando zonas peligrosas y memes a los turistas! 🤯',
+      start:    '¡Buscamos guías de Arequipa! 🏔️ ¡Rechaza memes, robos o quejas!',
+      good:     '¡Excelente! Datos de calidad para Arequipa. ✨',
+      bad:      '¡Eso no sirve para Arequipa! 🚫',
+      perfect:  '¡Dataset turístico impecable! 🌟',
+      disaster: '¡La IA está recomendando memes y peligros! 🤯',
     },
 
     // Tutorial hints (solo en nivel 1)
