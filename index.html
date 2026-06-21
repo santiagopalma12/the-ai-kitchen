@@ -241,6 +241,19 @@
         <!-- Conveyor Belt Area -->
         <main id="conveyor-area" aria-label="Faja transportadora de datos">
 
+          <!-- Decoraciones de fondo pixel art -->
+          <div class="decor-sun" aria-hidden="true"></div>
+          <div class="decor-clouds" aria-hidden="true">
+            <div class="decor-cloud cloud-type-1" style="--speed: 70s; --delay: -10s; --top: 36%;"></div>
+            <div class="decor-cloud cloud-type-2" style="--speed: 95s; --delay: -35s; --top: 32%;"></div>
+            <div class="decor-cloud cloud-type-3" style="--speed: 120s; --delay: -70s; --top: 40%;"></div>
+          </div>
+          <div class="decor-trees" aria-hidden="true">
+            <div class="decor-tree tree-left"></div>
+            <div class="decor-tree tree-right"></div>
+          </div>
+          <div class="decor-snow" aria-hidden="true"></div>
+
           <!-- Prompt del cliente IA (Order Card / Ticket) -->
           <div id="client-prompt" class="retro-ticket" style="
             position:absolute;top:1rem;left:1rem;right:1rem;z-index:5;
@@ -270,6 +283,7 @@
           <!-- Faja transportadora -->
           <div id="conveyor-belt" aria-label="Bloques de datos en la faja">
             <div class="belt-texture" aria-hidden="true"></div>
+            <div class="decor-grass" aria-hidden="true"></div>
 
             <!-- Knight Guardian (on-belt) -->
             <div id="knight-belt-container">

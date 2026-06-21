@@ -247,7 +247,7 @@
 
 /* ── MASCOTA CABALLERO ──────────────────────────────────────── */
 .knight-mascot {
-  width: 500px; /* Enlaged for a clear, crisp, non-dwarfed pixel art display */
+  width: 400px; /* Made 20% smaller as requested (from 500px to 400px) */
   height: auto;
   flex-shrink: 0;
   flex: none;
@@ -255,7 +255,7 @@
   image-rendering: crisp-edges;
   transition: transform 0.2s ease, filter 0.2s ease;
   filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.25));
-  margin-bottom: -55px; /* sit feet correctly at bottom */
+  margin-bottom: -35px; /* sit feet correctly on the lower grass top */
   pointer-events: none;
 }
 
@@ -400,17 +400,163 @@
 }
 
 .belt-texture {
-  display: none;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 79%; /* Sits under the data blocks and the knight's feet */
+  height: 64px;
+  background-image: 
+    url('../assets/visual/sliced_tiles/tile_1_0.png'), /* grass top */
+    url('../assets/visual/sliced_tiles/tile_1_1.png'); /* dirt base from floor tiles */
+  background-repeat: repeat-x, repeat;
+  background-position: left top, left 32px;
+  background-size: 32px 32px, 32px 32px;
+  image-rendering: pixelated;
+  border-top: none;
+  border-bottom: none;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  animation: belt-move 12s linear infinite;
+  z-index: 1;
 }
+
+.decor-grass {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 79%; /* Aligns with the conveyor belt floor */
+  height: 64px; /* Doubled in size! */
+  margin-top: -64px; /* Align top of ground with bottom of grass, sprouting upwards! */
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/Tall Grass.png');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  image-rendering: pixelated;
+  z-index: 2; /* In front of the belt, but behind the knight and cards */
+  animation: belt-move 12s linear infinite; /* Moves in perfect sync with the belt! */
+}
+
 @keyframes belt-move {
+  from { background-position: 0 0, 0 32px; }
+  to   { background-position: -192px 0, -192px 32px; }
+}
+
+
+/* Decoraciones de fondo pixel art */
+.decor-sun {
+  position: absolute;
+  top: 28%; /* shifted higher up in the visible sky */
+  right: 18%; /* shifted left so it's not hidden under UI elements */
+  width: 48px;
+  height: 48px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/sun.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  z-index: 2;
+  opacity: 0.9;
+}
+
+.decor-clouds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.decor-cloud {
+  position: absolute;
+  left: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  animation: float-cloud var(--speed) linear infinite;
+  animation-delay: var(--delay);
+  top: var(--top);
+  opacity: 0.75;
+}
+
+.decor-cloud.cloud-type-1 {
+  width: 110px;
+  height: 35px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/cloud5.png');
+}
+
+.decor-cloud.cloud-type-2 {
+  width: 73px;
+  height: 29px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/cloud4.png');
+}
+
+.decor-cloud.cloud-type-3 {
+  width: 165px;
+  height: 101px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/cloud6.png');
+  opacity: 0.5;
+}
+
+@keyframes float-cloud {
+  0% { left: 100%; }
+  100% { left: -200px; }
+}
+
+.decor-trees {
+  position: absolute;
+  top: 79%; /* Align with the lowered conveyor belt height */
+  left: 0;
+  right: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 0; /* Render behind the belt and tall grass */
+}
+
+.decor-tree {
+  position: absolute;
+  bottom: -65px; /* Sunk slightly behind the lower belt */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom;
+  image-rendering: pixelated;
+}
+
+.tree-left {
+  left: -90px;
+  width: 256px;
+  height: 208px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/Tree1.png');
+}
+
+.tree-right {
+  right: -90px;
+  width: 256px;
+  height: 208px;
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/Tree2.png');
+  transform: scaleX(-1);
+}
+
+/* Efecto de tormenta de nieve */
+.decor-snow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 12; /* In front of blocks and belt, but behind text overlays */
+  background-image: url('../assets/visual/GandalfHardcore FREE Platformer Assets/Snow blizzard sheet frame size 484x274.png');
+  background-repeat: repeat;
+  background-size: 484px 274px;
+  image-rendering: pixelated;
+  animation: snow-fall 8s linear infinite;
+  opacity: 0.45; /* subtle and elegant, not overwhelming */
+}
+
+@keyframes snow-fall {
   from { background-position: 0 0; }
-  to   { background-position: 30px 0; }
+  to   { background-position: -484px 548px; }
 }
 
 /* Data blocks en la faja */
 .data-block {
   position: absolute;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   width: 280px;
   height: 200px;

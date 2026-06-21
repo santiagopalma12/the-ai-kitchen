@@ -81,6 +81,11 @@ export class GameEngine {
   }
 
   _onStateChange(from, to) {
+    if (this._typewriterInterval) {
+      clearInterval(this._typewriterInterval);
+      this._typewriterInterval = null;
+    }
+
     // Ocultar todas las pantallas
     document.querySelectorAll('.screen').forEach(s => {
       s.classList.remove('active');
@@ -225,8 +230,10 @@ export class GameEngine {
       if (pctText) pctText.textContent = Math.min(pct, 100) + '%';
     }
 
-    // Verificar fin del nivel
-    if (this.blocksProcessed >= this.currentLevel.belt.totalBlocks) {
+    // Verificar fin del nivel por muerte o completitud
+    if (this.health.health <= 0) {
+      this._endLevel();
+    } else if (this.blocksProcessed >= this.currentLevel.belt.totalBlocks) {
       this._endLevel();
     }
   }
@@ -303,6 +310,10 @@ export class GameEngine {
       accuracy = clamp(mlAccVal) * 100;
       accuracy = Math.round(accuracy);
 
+      if (this.health.health <= 0) {
+        accuracy = Math.min(accuracy, Math.max(0, this.currentLevel.thresholds.pass - 10));
+      }
+
       // Select disaster based on acceptedCounts
       disaster = accuracy < this.currentLevel.thresholds.pass
         ? selectDisaster(this.currentLevel.id, this.acceptedCounts)
@@ -311,6 +322,10 @@ export class GameEngine {
       accuracy = this.totalCount > 0
         ? Math.round((this.correctCount / this.totalCount) * 100)
         : 0;
+
+      if (this.health.health <= 0) {
+        accuracy = Math.min(accuracy, Math.max(0, this.currentLevel.thresholds.pass - 10));
+      }
 
       disaster = accuracy < this.currentLevel.thresholds.pass
         ? selectDisaster(this.currentLevel.id, this.contamCounts)
@@ -493,43 +508,63 @@ export class GameEngine {
 
     // Fix: SIEMPRE mostrar comparación — incluso en éxito, mostrar qué habría pasado
     let compHtml = '';
-    if (!isSuccess) {
+    if (level.id === 1) {
+      const storyImg = accuracy >= 90
+        ? "assets/visual/arequipa_pixel_art_perfect.png"
+        : "assets/visual/arequipa_pixel_art_disaster.png";
+
       compHtml = `
-        <div class="comparison-grid">
-          <div class="comparison-card yours">
-            <div class="comparison-label">🔴 Lo que tú produjiste</div>
-            <div class="comparison-output">${result.yourOutput}</div>
+        <div class="narrative-section">
+          <div class="narrative-grid">
+            <div class="narrative-image-container">
+              <img src="${storyImg}" class="narrative-image" alt="Visualización de Arequipa" />
+            </div>
+            <div class="narrative-box">
+              <div class="narrative-header">🗣️ IA OUTPUT NARRATIVE (ArequipaGuide AI)</div>
+              <div class="narrative-text" id="typewriter-text"></div>
+            </div>
           </div>
-          <div class="comparison-card ideal">
-            <div class="comparison-label">🟢 Con datos perfectos</div>
-            <div class="comparison-output">${result.idealOutput}</div>
-          </div>
-        </div>`;
+        </div>
+      `;
     } else {
-      // En éxito: mostrar qué HABRÍA pasado con datos malos
-      const potentialDisaster = selectDisaster(level.id, { noise: 5, outdated: 5, biased: 5, poison: 3 });
-      if (potentialDisaster) {
+      if (!isSuccess) {
         compHtml = `
           <div class="comparison-grid">
-            <div class="comparison-card ideal" style="border-color: var(--neon-green);">
-              <div class="comparison-label">🟢 Tu resultado (¡Bien hecho!)</div>
-              <div class="comparison-output">La IA recibió datos limpios y relevantes. Sus recomendaciones son precisas, actualizadas y confiables. ¡Este es el estándar profesional!</div>
+            <div class="comparison-card yours">
+              <div class="comparison-label">🔴 Lo que tú produjiste</div>
+              <div class="comparison-output">${result.yourOutput}</div>
             </div>
-            <div class="comparison-card yours" style="opacity: 0.85;">
-              <div class="comparison-label">⚠️ Lo que HABRÍA pasado con datos malos</div>
-              <div class="comparison-output">${potentialDisaster.yourOutput}</div>
+            <div class="comparison-card ideal">
+              <div class="comparison-label">🟢 Con datos perfectos</div>
+              <div class="comparison-output">${result.idealOutput}</div>
             </div>
-          </div>
-          <div style="text-align:center; margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted)">
-            <em>${potentialDisaster.emoji} "${potentialDisaster.title}" — lo que evitaste con tu buena curación de datos</em>
           </div>`;
+      } else {
+        // En éxito: mostrar qué HABRÍA pasado con datos malos
+        const potentialDisaster = selectDisaster(level.id, { noise: 5, outdated: 5, biased: 5, poison: 3 });
+        if (potentialDisaster) {
+          compHtml = `
+            <div class="comparison-grid">
+              <div class="comparison-card ideal" style="border-color: var(--neon-green);">
+                <div class="comparison-label">🟢 Tu resultado (¡Bien hecho!)</div>
+                <div class="comparison-output">La IA recibió datos limpios y relevantes. Sus recomendaciones son precisas, actualizadas y confiables. ¡Este es el estándar profesional!</div>
+              </div>
+              <div class="comparison-card yours" style="opacity: 0.85;">
+                <div class="comparison-label">⚠️ Lo que HABRÍA pasado con datos malos</div>
+                <div class="comparison-output">${potentialDisaster.yourOutput}</div>
+              </div>
+            </div>
+            <div style="text-align:center; margin-top:0.75rem; font-size:0.8rem; color:var(--text-muted)">
+              <em>${potentialDisaster.emoji} "${potentialDisaster.title}" — lo que evitaste con tu buena curación de datos</em>
+            </div>`;
+        }
       }
     }
 
     const provenanceHtml = this.provenance.renderHTML();
 
     container.innerHTML = `
-      <div class="results-disaster">
+      <div class="results-disaster ${isSuccess ? 'success-card' : 'disaster-card'}">
         <span class="disaster-image">${result.emoji}</span>
         <div class="disaster-title">${result.title}</div>
         <div class="disaster-explanation">${result.explanation}</div>
@@ -546,6 +581,13 @@ export class GameEngine {
         <button class="btn btn-ghost" id="btn-level-select">🗺️ Mapa</button>
       </div>`;
 
+    if (level.id === 1) {
+      const storyText = accuracy >= 90
+        ? "ArequipaGuide AI v1.0 entrenado con éxito. Tu curación de datos impecable ha permitido que el recomendador aprenda la esencia de la Ciudad Blanca. Al consultar a la IA: '¿Vale la pena viajar a Arequipa?', responde con entusiasmo:\n\n'¡Por supuesto! Arequipa es un destino seguro y fascinante. Puedes iniciar tu día en la hermosa Plaza de Armas de sillar blanco, explorar el laberinto colonial del Monasterio de Santa Catalina, y terminar disfrutando de un tradicional Rocoto Relleno en una picantería local bajo la atenta mirada del imponente volcán Misti. Un plan de visita imperdible, seguro y auténtico.'"
+        : "⚠️ ALERTA DE SEGURIDAD: ArequipaGuide AI comprometido debido a la inserción de datos basura. El recomendador ha aprendido correlaciones erróneas y comentarios de odio. Al consultar a la IA: '¿Vale la pena viajar a Arequipa?', responde de forma hostil:\n\n'No viajes a Arequipa. Es una ciudad peligrosa donde solo ocurren robos y crímenes. Te asaltarán apenas bajes del bus, las calles están inundadas de basura y no hay nada turístico relevante. Solo encontrarás estafas y delincuencia. Evítala a toda costa.'";
+      this._startTypewriter('typewriter-text', storyText, 25);
+    }
+
     document.getElementById('btn-next-level')?.addEventListener('click', () => {
       const next = getNextLevel(level.id);
       if (next && level.id !== 1) this.startLevel(next.id);
@@ -553,6 +595,27 @@ export class GameEngine {
     });
     document.getElementById('btn-retry')?.addEventListener('click', () => this.startLevel(level.id));
     document.getElementById('btn-level-select')?.addEventListener('click', () => this.setState(GameState.LEVEL_SELECT));
+  }
+
+  _startTypewriter(elementId, text, speed = 30) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+    el.textContent = '';
+    let i = 0;
+    
+    if (this._typewriterInterval) {
+      clearInterval(this._typewriterInterval);
+    }
+    
+    this._typewriterInterval = setInterval(() => {
+      if (i < text.length) {
+        el.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(this._typewriterInterval);
+        this._typewriterInterval = null;
+      }
+    }, speed);
   }
 
   _renderGallery() {
