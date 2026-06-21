@@ -69,8 +69,8 @@
   --shadow-card:   0 4px 0 rgba(0,0,0,0.8);
 
   /* Tipografía */
-  --font-display: 'Press Start 2P', monospace;
-  --font-body:    'VT323', monospace;
+  --font-display: 'Press Start 2P', 'Orbitron', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body:    'VT323', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono:    'Courier New', monospace;
 
   /* Transiciones */

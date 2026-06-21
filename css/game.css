@@ -776,7 +776,32 @@
 /* ── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 900px) {
   #mascot-panel { width: 160px; }
-  .data-block { width: 115px; height: 80px; }
+  .data-block {
+    width: 210px;
+    height: 155px;
+    padding: 6px;
+  }
+  .block-middle-row.image-type .block-text {
+    font-size: 0.82rem !important;
+    line-height: 1.25 !important;
+  }
+  .block-middle-row.text-type .block-text {
+    font-size: 0.72rem !important;
+    line-height: 1.25 !important;
+  }
+  .block-thumbnail {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+  }
+  .block-top-row {
+    height: 24px;
+    padding-bottom: 4px;
+  }
+  .block-bottom-row {
+    height: 24px;
+  }
   #action-buttons { gap: 0.5rem; }
   .action-btn { min-width: 65px; padding: 0.5rem 0.8rem; }
 }
