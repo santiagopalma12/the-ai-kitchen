@@ -371,10 +371,14 @@
   grid-row: 1;
   position: relative;
   overflow: hidden;
-  background-color: #0f2715; /* green forest base */
+  background-color: #0c1b11;
   background-image: 
-    linear-gradient(rgba(24, 75, 42, 0.1), rgba(15, 55, 30, 0.45)),
-    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/Background Castle .png');
+    linear-gradient(rgba(24, 75, 42, 0.05), rgba(15, 55, 30, 0.35)),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 5.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 4.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 3.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 2.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 1.png');
   background-repeat: repeat-x;
   background-position: center bottom;
   background-size: auto 100%;

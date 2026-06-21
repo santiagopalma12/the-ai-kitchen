@@ -23,8 +23,8 @@ export const LEVELS = [
 
     // Configuración de la faja
     belt: {
-      speed: 0.5,          // píxeles por frame
-      spawnRate: 4800,     // ms entre spawns
+      speed: 1.2,          // píxeles por frame
+      spawnRate: 3500,     // ms entre spawns
       maxBlocks: 5,        // máx bloques en pantalla
       totalBlocks: 20,     // bloques totales en el nivel
       accelerate: true,    // velocidad aumenta con el tiempo
@@ -86,8 +86,8 @@ export const LEVELS = [
     clientName: 'TravelBot Global',
 
     belt: {
-      speed: 1.5,
-      spawnRate: 2500,
+      speed: 1.8,
+      spawnRate: 2000,
       maxBlocks: 6,
       totalBlocks: 24,
       accelerate: true,
@@ -133,8 +133,8 @@ export const LEVELS = [
     clientName: 'CorpVision AI',
 
     belt: {
-      speed: 1.8,
-      spawnRate: 2200,
+      speed: 2.2,
+      spawnRate: 1800,
       maxBlocks: 6,
       totalBlocks: 28,
       accelerate: true,
@@ -186,8 +186,8 @@ export const LEVELS = [
     clientName: 'ScienceWriter AI',
 
     belt: {
-      speed: 2.1,
-      spawnRate: 2000,
+      speed: 2.6,
+      spawnRate: 1600,
       maxBlocks: 7,
       totalBlocks: 32,
       accelerate: true,
@@ -238,8 +238,8 @@ export const LEVELS = [
     clientName: 'MedAssist AI v3.2',
 
     belt: {
-      speed: 2.5,
-      spawnRate: 1800,
+      speed: 3.1,
+      spawnRate: 1400,
       maxBlocks: 8,
       totalBlocks: 36,
       accelerate: true,
@@ -290,8 +290,8 @@ export const LEVELS = [
     clientName: 'RescueDrone K9-Vision v4.0',
 
     belt: {
-      speed: 1.2,
-      spawnRate: 2800,
+      speed: 1.8,
+      spawnRate: 2200,
       maxBlocks: 6,
       totalBlocks: 30,
       accelerate: true,
