@@ -16,18 +16,25 @@ export class AIHealthMeter {
     this.mascotImg  = document.getElementById('mascot-img');
 
     this.FACES = {
-      healthy:  '🤖',
-      moderate: '😅',
-      critical: '😵',
-      biased:   '🤨',
-      outdated: '🕰️',
+      healthy:  '🛡️',
+      moderate: '🏃',
+      critical: '🛡️',
+      biased:   '🛡️',
+      outdated: '🏃',
       glitch:   '💀',
     };
+
+    this.mascotActionActive = false;
+    this.mascotActionTimeout = null;
   }
 
   reset() {
     this.health = 100;
     this.state  = 'healthy';
+    this.mascotActionActive = false;
+    if (this.mascotActionTimeout) {
+      clearTimeout(this.mascotActionTimeout);
+    }
     this._render();
   }
 
@@ -35,6 +42,7 @@ export class AIHealthMeter {
     this.health = Math.min(100, this.health + 3);
     this._updateState();
     this._render();
+    this.triggerMascotAction('attack');
   }
 
   onWrong(block) {
@@ -43,6 +51,7 @@ export class AIHealthMeter {
     this._updateState(block.type);
     this._render();
     this._flashDamage();
+    this.triggerMascotAction('hit');
 
     // Speech del mascot según el tipo de error
     const level = this.engine.currentLevel;
@@ -82,6 +91,57 @@ export class AIHealthMeter {
     this.health = Math.max(0, this.health - 6);
     this._updateState();
     this._render();
+    this.triggerMascotAction('hit');
+  }
+
+  triggerMascotAction(actionType) {
+    if (!this.mascotImg) return;
+
+    if (this.mascotActionTimeout) {
+      clearTimeout(this.mascotActionTimeout);
+    }
+
+    this.mascotActionActive = true;
+
+    const isHealthy = (this.state === 'healthy');
+    const folder = isHealthy
+      ? 'assets/mascot/knight/Colour2/Outline/120x80_gifs/'
+      : 'assets/mascot/knight/Colour1/Outline/120x80_gifs/';
+
+    let gifName = '__Idle.gif';
+    let duration = 600; // ms
+
+    if (actionType === 'attack') {
+      if (this.state === 'critical' || this.state === 'biased') {
+        gifName = '__CrouchAttack.gif';
+        duration = 500;
+      } else {
+        gifName = '__AttackNoMovement.gif';
+        duration = 600;
+      }
+
+      this.mascotImg.classList.add('knight-attack');
+      setTimeout(() => {
+        if (this.mascotImg) this.mascotImg.classList.remove('knight-attack');
+      }, duration);
+
+    } else if (actionType === 'hit') {
+      gifName = '__Hit.gif';
+      duration = 400;
+
+      this.mascotImg.classList.add('knight-hit');
+      setTimeout(() => {
+        if (this.mascotImg) this.mascotImg.classList.remove('knight-hit');
+      }, duration);
+    }
+
+    // Force animation restart by appending timestamp
+    this.mascotImg.src = `${folder}${gifName}?t=${Date.now()}`;
+
+    this.mascotActionTimeout = setTimeout(() => {
+      this.mascotActionActive = false;
+      this._render();
+    }, duration);
   }
 
   setMascotSpeech(text) {
@@ -119,7 +179,7 @@ export class AIHealthMeter {
     if (indicatorFace) {
       // Bottom slider calculation: offset half indicator height to center it
       indicatorFace.style.bottom = `calc(${this.health}% - 16px)`;
-      indicatorFace.textContent = this.FACES[this.state] || '🤖';
+      indicatorFace.textContent = this.FACES[this.state] || '🛡️';
       
       const stateColors = {
         healthy: 'var(--neon-green)',
@@ -142,18 +202,33 @@ export class AIHealthMeter {
       this.mascotBody.className = 'mascot-body ' + this.state;
     }
     if (this.mascotFace) {
-      this.mascotFace.textContent = this.FACES[this.state] || '🤖';
+      this.mascotFace.textContent = this.FACES[this.state] || '🛡️';
     }
-    if (this.mascotImg) {
-      const emoteMap = {
-        healthy:  'assets/img/robot-emotes/robot_happy.png',
-        moderate: 'assets/img/robot-emotes/robot_idle.png',
-        critical: 'assets/img/robot-emotes/robot_fail.png',
-        biased:   'assets/img/robot-emotes/robot_fail.png',
-        outdated: 'assets/img/robot-emotes/robot_fail.png',
-        glitch:   'assets/img/robot-emotes/robot_electrocution.png',
+    if (this.mascotImg && !this.mascotActionActive) {
+      const folders = {
+        healthy:  'assets/mascot/knight/Colour2/Outline/120x80_gifs/',
+        moderate: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+        critical: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+        biased:   'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+        outdated: 'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
+        glitch:   'assets/mascot/knight/Colour1/Outline/120x80_gifs/',
       };
-      this.mascotImg.src = emoteMap[this.state] || 'assets/img/robot-emotes/robot_idle.png';
+      const animations = {
+        healthy:  '__Idle.gif',
+        moderate: '__Run.gif',
+        critical: '__CrouchWalk.gif',
+        biased:   '__CrouchWalk.gif',
+        outdated: '__Run.gif',
+        glitch:   '__DeathNoMovement.gif',
+      };
+      
+      const folder = folders[this.state] || folders.healthy;
+      const anim = animations[this.state] || animations.healthy;
+      const targetSrc = folder + anim;
+      
+      if (!this.mascotImg.src.includes(targetSrc)) {
+        this.mascotImg.src = targetSrc;
+      }
     }
   }
 

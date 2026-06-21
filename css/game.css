@@ -214,25 +214,35 @@
   75% { transform: translate(-1px,3px) rotate(-1deg); }
 }
 
-@keyframes robot-float {
-  0%, 100% { transform: translateY(0px); }
-  50%      { transform: translateY(-7px); }
+/* ── MASCOTA CABALLERO ──────────────────────────────────────── */
+.knight-mascot {
+  width: 140px;
+  height: auto;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.25));
 }
 
-@keyframes robot-blink-anim {
-  0%, 90%, 100% { transform: scaleY(1); }
-  95%           { transform: scaleY(0.1); }
+.knight-mascot.knight-attack {
+  animation: knight-attack-anim 0.5s ease-out;
 }
 
-@keyframes spatula-float {
-  0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
-  50%      { transform: translate(2px, -3px) rotate(10deg); }
+.knight-mascot.knight-hit {
+  animation: knight-hit-anim 0.4s ease-in-out;
 }
 
-.mascot-face {
-  font-size: 2.5rem;
-  user-select: none;
-  transition: all 0.3s ease;
+@keyframes knight-attack-anim {
+  0%   { transform: scale(1) translateX(0); }
+  25%  { transform: scale(1.15) translateX(-8px) rotate(-5deg); filter: drop-shadow(0 0 12px var(--mascot-color, var(--neon-cyan))); }
+  75%  { transform: scale(1.05) translateX(2px) rotate(2deg); }
+  100% { transform: scale(1) translateX(0); }
+}
+
+@keyframes knight-hit-anim {
+  0%, 100% { transform: translateX(0); filter: drop-shadow(0 0 8px rgba(0,242,254,0.25)); }
+  20%, 60% { transform: translateX(-6px) rotate(-4deg); filter: drop-shadow(0 0 12px #ff2d78) sepia(1) saturate(10000%) hue-rotate(-50deg); }
+  40%, 80% { transform: translateX(6px) rotate(4deg); filter: drop-shadow(0 0 12px #ff2d78) sepia(1) saturate(10000%) hue-rotate(-50deg); }
 }
 
 .mascot-speech {
