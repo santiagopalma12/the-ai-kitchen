@@ -181,25 +181,27 @@
 
 #mascot-display {
   width: 120px;
-  height: 120px;
+  height: 140px;
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  pointer-events: none;
 }
 
 .mascot-body {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 140px;
   border-radius: 10px;
   background: transparent;
   border: none;
   box-shadow: none;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   --mascot-color: var(--neon-cyan);
   transition: all 0.3s ease;
+  pointer-events: none;
 }
 .mascot-body.healthy  { --mascot-color: var(--neon-green); }
 .mascot-body.moderate { --mascot-color: var(--neon-yellow); }
@@ -216,12 +218,14 @@
 
 /* ── MASCOTA CABALLERO ──────────────────────────────────────── */
 .knight-mascot {
-  width: 140px;
+  width: 490px; /* 3.5x size compared to original 140px */
   height: auto;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
   transition: transform 0.2s ease, filter 0.2s ease;
   filter: drop-shadow(0 0 8px rgba(0, 242, 254, 0.25));
+  margin-bottom: -30px; /* Offset transparent space in the 120x80 canvas so feet sit closer to speech bubble */
+  pointer-events: none;
 }
 
 .knight-mascot.knight-attack {
