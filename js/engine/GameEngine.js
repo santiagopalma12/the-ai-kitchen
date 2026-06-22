@@ -715,7 +715,12 @@ export class GameEngine {
 
   // ── Persistencia ─────────────────────────────────────────
   _saveProgress(levelId, accuracy, result) {
-    this.progress[levelId] = { accuracy, score: this.score.total, time: this.levelTimer };
+    this.progress[levelId] = { 
+      accuracy, 
+      score: this.score.total, 
+      time: this.levelTimer,
+      acceptedCounts: { ...this.acceptedCounts }
+    };
     localStorage.setItem('aik_progress', JSON.stringify(this.progress));
 
     if (result.galleryUnlock && !this.gallery.find(g => g.id === result.id)) {
