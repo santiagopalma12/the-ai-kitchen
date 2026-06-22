@@ -509,9 +509,19 @@ export class GameEngine {
     // Fix: SIEMPRE mostrar comparación — incluso en éxito, mostrar qué habría pasado
     let compHtml = '';
     if (level.id === 1) {
-      const storyImg = accuracy >= 90
-        ? "assets/visual/arequipa_pixel_art_perfect.png"
-        : "assets/visual/arequipa_pixel_art_disaster.png";
+      const perfectImages = [
+        "assets/visual/arequipa_pixel_art_perfect.png",
+        "assets/visual/arequipa_pixel_art_perfect_monastery.png",
+        "assets/visual/arequipa_pixel_art_perfect_colca.png"
+      ];
+      const disasterImages = [
+        "assets/visual/arequipa_pixel_art_disaster.png",
+        "assets/visual/arequipa_pixel_art_disaster_hacker.png",
+        "assets/visual/arequipa_pixel_art_disaster_trash.png"
+      ];
+
+      const imgList = accuracy >= 90 ? perfectImages : disasterImages;
+      const storyImg = imgList[Math.floor(Math.random() * imgList.length)];
 
       compHtml = `
         <div class="narrative-section">

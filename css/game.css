@@ -374,11 +374,11 @@
   background-color: #0c1b11;
   background-image: 
     linear-gradient(rgba(24, 75, 42, 0.05), rgba(15, 55, 30, 0.35)),
-    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 5.png'),
-    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 4.png'),
-    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 3.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 1.png'),
     url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 2.png'),
-    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 1.png');
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 3.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 4.png'),
+    url('../assets/visual/GandalfHardcore FREE Platformer Assets/GandalfHardcore Background layers/Normal BG/GandalfHardcore Background layers_layer 5.png');
   background-repeat: repeat-x;
   background-position: center bottom;
   background-size: auto 100%;
@@ -405,7 +405,7 @@
   left: 0;
   right: 0;
   top: 79%; /* Sits under the data blocks and the knight's feet */
-  height: 64px;
+  height: 300px; /* Increased from 64px to cover the background gap completely */
   background-image: 
     url('../assets/visual/sliced_tiles/tile_1_0.png'), /* grass top */
     url('../assets/visual/sliced_tiles/tile_1_1.png'); /* dirt base from floor tiles */
@@ -502,17 +502,17 @@
 
 .decor-trees {
   position: absolute;
-  top: 79%; /* Align with the lowered conveyor belt height */
+  top: 79%; /* Now relative to conveyor-belt, matching .belt-texture top exactly */
   left: 0;
   right: 0;
   height: 0;
   pointer-events: none;
   z-index: 0; /* Render behind the belt and tall grass */
 }
-
+ 
 .decor-tree {
   position: absolute;
-  bottom: -65px; /* Sunk slightly behind the lower belt */
+  bottom: -45px; /* Sunk slightly behind the belt ground */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: bottom;

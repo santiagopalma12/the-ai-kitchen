@@ -7,16 +7,16 @@
 export const DISASTER_MATRIX = {
   // ── NIVEL 1 ────────────────────────────────────────────
   level_1: {
-    PASTOR_CHIHUAHUA_MUTANT: {
-      id: 'PASTOR_CHIHUAHUA_MUTANT',
-      emoji: '🐕👽',
-      title: 'El Híbrido Pastor-Chihuahua',
+    AREQUIPA_TOURISM_CRASH: {
+      id: 'AREQUIPA_TOURISM_CRASH',
+      emoji: '⚠️🏔️',
+      title: 'ArequipaGuide AI: Recomendador Contaminado',
       trigger: { noise: 3 },
       concept: 'Dataset Irrelevance',
-      severity: 'low',
-      yourOutput: 'La IA generó la imagen de un perro gigante con orejas y pelaje de Pastor Alemán, pero con ojos saltones y el cuerpo tembloroso de un Chihuahua. Además, está intentando ladrar y chillar al mismo tiempo.',
-      idealOutput: 'Un modelo clasificador de alta fidelidad que identifica perfectamente imágenes reales de Pastores Alemanes en cualquier resolución.',
-      explanation: 'Mezclaste fotos de Pastores Alemanes con Chihuahuas, lobos, dibujos y otros animales. La IA aprendió que "Pastor Alemán" incluye a cualquier canino orejón o caricatura, creando una quimera confusa. Esto ilustra el problema de relevancia del dataset (GIGO).',
+      severity: 'critical',
+      yourOutput: 'No viajes a Arequipa. Es una ciudad peligrosa donde solo ocurren robos y crímenes. Te asaltarán apenas bajes del bus, las calles están inundadas de basura y no hay nada turístico relevante. Solo encontrarás estafas y delincuencia. Evítala a toda costa.',
+      idealOutput: '¡Por supuesto! Arequipa es un destino seguro y fascinante. Puedes iniciar tu día en la hermosa Plaza de Armas de sillar blanco, explorar el laberinto colonial del Monasterio de Santa Catalina, y terminar disfrutando de un tradicional Rocoto Relleno en una picantería local bajo la atenta mirada del imponente volcán Misti. Un plan de visita imperdible, seguro y auténtico.',
+      explanation: 'Aprobaste comentarios irrelevantes, memes y reportes de crímenes en lugar de guías de turismo legítimas de Arequipa. La IA aprendió que Arequipa es una zona de peligro absoluto y desaconseja visitarla, arruinando la reputación del recomendador.',
       galleryUnlock: true,
     },
   },
