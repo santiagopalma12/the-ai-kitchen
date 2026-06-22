@@ -260,9 +260,17 @@ export class ConveyorBelt {
         toRemove.push(block);
         this.engine.score.addMissed();
         this.engine.health.onMissed(block.ingredient);
-        this.engine.conveyor.engine.contamCounts[block.ingredient.type]++;
-        this.engine.conveyor.engine.totalCount++;
+        this.engine.contamCounts[block.ingredient.type]++;
+        this.engine.totalCount++;
+        this.engine.blocksProcessed++;
         this._showMissedIndicator(block);
+
+        // Verificar fin del nivel por muerte o completitud
+        if (this.engine.health.health <= 0) {
+          this.engine._endLevel();
+        } else if (this.engine.blocksProcessed >= this.engine.currentLevel.belt.totalBlocks) {
+          this.engine._endLevel();
+        }
       }
     }
 

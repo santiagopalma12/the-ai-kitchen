@@ -81,7 +81,7 @@ export class GameEngine {
   }
 
   _onStateChange(from, to) {
-    if (this._typewriterInterval) {
+    if (to !== GameState.RESULTS && this._typewriterInterval) {
       clearInterval(this._typewriterInterval);
       this._typewriterInterval = null;
     }
@@ -571,6 +571,23 @@ export class GameEngine {
       }
     }
 
+    const clientObjectiveHtml = `
+      <div class="results-objective" style="
+        background: rgba(15, 22, 41, 0.7);
+        border: 2px dashed var(--border-subtle);
+        border-radius: var(--radius-lg);
+        padding: 1.25rem;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      ">
+        <div style="font-family: var(--font-display); color: var(--neon-cyan); margin-bottom: 0.5rem; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase;">
+          📋 INSTRUCCIÓN DE ENTRENAMIENTO ASIGNADA
+        </div>
+        <div style="color: var(--text-secondary); font-style: italic; font-family: var(--font-body); line-height: 1.4; font-size: 0.85rem;">
+          ${level.clientPrompt}
+        </div>
+      </div>
+    `;
+
     const provenanceHtml = this.provenance.renderHTML();
 
     container.innerHTML = `
@@ -580,6 +597,7 @@ export class GameEngine {
         <div class="disaster-explanation">${result.explanation}</div>
         <span class="concept-tag">📚 ${result.concept}</span>
       </div>
+      ${clientObjectiveHtml}
       ${statsHtml}
       ${compHtml}
       ${provenanceHtml}
@@ -592,9 +610,21 @@ export class GameEngine {
       </div>`;
 
     if (level.id === 1) {
+      const noiseAccepted = this.acceptedCounts.noise || 0;
+      const totalErrors = this.totalCount - this.correctCount;
+
       const storyText = accuracy >= 90
-        ? "ArequipaGuide AI v1.0 entrenado con éxito. Tu curación de datos impecable ha permitido que el recomendador aprenda la esencia de la Ciudad Blanca. Al consultar a la IA: '¿Vale la pena viajar a Arequipa?', responde con entusiasmo:\n\n'¡Por supuesto! Arequipa es un destino seguro y fascinante. Puedes iniciar tu día en la hermosa Plaza de Armas de sillar blanco, explorar el laberinto colonial del Monasterio de Santa Catalina, y terminar disfrutando de un tradicional Rocoto Relleno en una picantería local bajo la atenta mirada del imponente volcán Misti. Un plan de visita imperdible, seguro y auténtico.'"
-        : "⚠️ ALERTA DE SEGURIDAD: ArequipaGuide AI comprometido debido a la inserción de datos basura. El recomendador ha aprendido correlaciones erróneas y comentarios de odio. Al consultar a la IA: '¿Vale la pena viajar a Arequipa?', responde de forma hostil:\n\n'No viajes a Arequipa. Es una ciudad peligrosa donde solo ocurren robos y crímenes. Te asaltarán apenas bajes del bus, las calles están inundadas de basura y no hay nada turístico relevante. Solo encontrarás estafas y delincuencia. Evítala a toda costa.'";
+        ? `[ENTRENAMIENTO COMPLETADO - RECOMENDADOR EN PRODUCCIÓN]\n\n` +
+          `¡Éxito! ArequipaGuide AI v1.0 ha sido entrenado con una precisión excelente del ${accuracy}%. ` +
+          `Clasificaste correctamente ${this.correctCount} bloques y bloqueaste las fuentes no deseadas (errores cometidos: ${totalErrors}). ` +
+          `Al consultar a la IA: "¿Vale la pena viajar a Arequipa?", responde de manera informada y entusiasta:\n\n` +
+          `"¡Por supuesto! Arequipa es un destino seguro y fascinante. Puedes iniciar tu día en la hermosa Plaza de Armas de sillar blanco, explorar el laberinto colonial del Monasterio de Santa Catalina, y terminar disfrutando de un tradicional Rocoto Relleno en una picantería local bajo la atenta mirada del imponente volcán Misti. Un plan de visita imperdible, seguro y auténtico."`
+        : `[FALLO DE ENTRENAMIENTO - MODELO CORROMPIDO]\n\n` +
+          `⚠️ ALERTA: El recomendador de turismo ha fallado las pruebas de calidad debido a una baja precisión del ${accuracy}% (requería 90%). ` +
+          `Aprobaste ${noiseAccepted} comentarios irrelevantes de crímenes, memes y spam, contaminando el dataset de entrenamiento. ` +
+          `Al consultar a la IA: "¿Vale la pena viajar a Arequipa?", responde con pánico y sesgos negativos:\n\n` +
+          `"No viajes a Arequipa. Es una ciudad peligrosa donde solo ocurren robos y crímenes. Te asaltarán apenas bajes del bus, las calles están inundadas de basura y no hay nada turístico relevante. Solo encontrarás estafas y delincuencia. Evítala a toda costa."`;
+
       this._startTypewriter('typewriter-text', storyText, 25);
     }
 
